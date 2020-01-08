@@ -29,7 +29,7 @@
         <slf4j.version>1.7.18</slf4j.version>
 
         <!-- swagger相关 版本号-->
-        <jackson.verson>2.8.7</jackson.verson>
+        <jackson.verson>2.10.2</jackson.verson>
     </properties>
 
 
