@@ -6,8 +6,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pojo.User;
 import service.AuthorService;
+import service.TockenService;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,8 +17,10 @@ import java.util.Map;
 public class AuthorController {
     @Resource
     private AuthorService authorService;
+    @Resource
+    private TockenService tockenService;
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
     public Object login(String username, String password){
 
@@ -39,10 +43,36 @@ public class AuthorController {
             map.put("user",user);
             map.put("code","1");
             map.put("msg","登录成功");
+
+            // 创建 Tocken
+            String tocken = tockenService.create(user.getId());
+            // 将 Tocken 写入 Redis
+            tockenService.write(tocken, user.getId(),15);
+            // 将 Tocken 发送给客户端
+            map.put("tocken",tocken);
+
         }else{
             map.put("code","0");
             map.put("msg","登录失败");
         }
+        return map;
+    }
+
+    @RequestMapping("/logout")
+    @ResponseBody
+    public Object logout(HttpServletRequest request){
+        Map<String, Object> map = new HashMap<>();
+        String tocken = request.getHeader("tocken");
+
+        if(!tockenService.exists(tocken)){
+            map.put("code","0");
+            map.put("msg","请先登录在进行退出");
+            return map;
+        }
+
+        tockenService.delete(tocken);
+        map.put("code","1");
+        map.put("msg","退出成功");
         return map;
     }
 }
