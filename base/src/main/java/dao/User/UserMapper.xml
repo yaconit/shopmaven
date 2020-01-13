@@ -5,12 +5,20 @@
 <mapper namespace="dao.User.UserMapper">
     <select id="login" resultType="user">
         SELECT
-            id,username,password
+            id,username
         FROM
             `user`
         WHERE
             username = #{username}
             AND password = #{password}
+    </select>
+    <select id="loginByPhone" resultType="user">
+        SELECT
+            id,username
+        FROM
+            `user`
+        WHERE
+            phone = #{phone}
     </select>
 </mapper>
 

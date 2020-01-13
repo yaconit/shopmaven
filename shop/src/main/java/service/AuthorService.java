@@ -13,4 +13,8 @@ public class AuthorService {
     public User login(String username, String password){
         return userMapper.login(username,password);
     }
+
+    public User loginByPhone(String phone){
+        return userMapper.loginByPhone(phone);
+    }
 }

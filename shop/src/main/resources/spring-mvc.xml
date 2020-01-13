@@ -39,4 +39,14 @@
         <constructor-arg name="host" value="localhost"/>
         <constructor-arg name="part" value="6379"/>
     </bean>
+
+    <!-- SMSUtil Bean -->
+    <bean name="sms" class="utils.SMSUtil">
+        <property name="accountSId" value="8aaf07086bfdc842016cea5f82d502b8"/>
+        <property name="serverIp" value="app.cloopen.com"/>
+        <property name="serverPort" value="8883"/>
+        <property name="accountToken" value="6c08ae524eea48b9bab458dcc4b72cc9"/>
+        <property name="appId" value="8aaf07086bfdc842016cea5f82f402b9"/>
+        <property name="templateId" value="1"/>
+    </bean>
 </beans>
